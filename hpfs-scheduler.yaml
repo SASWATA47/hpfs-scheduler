@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hpfs-scheduler
+  namespace: kube-system
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      component: hpfs-scheduler
+  template:
+    metadata:
+      labels:
+        component: hpfs-scheduler
+    spec:
+      serviceAccountName: hpfs-scheduler
+      containers:
+        - name: hpfs-scheduler
+          image: <your-docker-username>/hpfs-scheduler:latest
+          imagePullPolicy: IfNotPresent

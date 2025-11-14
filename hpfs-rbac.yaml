@@ -1,0 +1,29 @@
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: hpfs-scheduler
+  namespace: kube-system
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  namespace: kube-system
+  name: hpfs-scheduler-role
+rules:
+  - apiGroups: [""]
+    resources: ["pods", "pods/binding", "pods/status", "nodes"]
+    verbs: ["get", "list", "watch", "create", "update"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: hpfs-scheduler-binding
+  namespace: kube-system
+subjects:
+  - kind: ServiceAccount
+    name: hpfs-scheduler
+    namespace: kube-system
+roleRef:
+  kind: Role
+  name: hpfs-scheduler-role
+  apiGroup: rbac.authorization.k8s.io
